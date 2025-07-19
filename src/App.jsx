@@ -64,6 +64,10 @@ function AppContent() {
     const saved = localStorage.getItem('autoScrollToBottom');
     return saved !== null ? JSON.parse(saved) : true;
   });
+  const [sidebarCollapsed, setSidebarCollapsed] = useState(() => {
+    const saved = localStorage.getItem('sidebarCollapsed');
+    return saved !== null ? JSON.parse(saved) : false;
+  });
   // Session Protection System: Track sessions with active conversations to prevent
   // automatic project updates from interrupting ongoing chats. When a user sends
   // a message, the session is marked as "active" and project updates are paused
@@ -406,6 +410,12 @@ function AppContent() {
     }
   };
 
+  const toggleSidebar = () => {
+    const newCollapsed = !sidebarCollapsed;
+    setSidebarCollapsed(newCollapsed);
+    localStorage.setItem('sidebarCollapsed', JSON.stringify(newCollapsed));
+  };
+
   // Version Upgrade Modal Component
   const VersionUpgradeModal = () => {
     if (!showVersionModal) return null;
@@ -496,8 +506,10 @@ function AppContent() {
     <div className="fixed inset-0 flex bg-background">
       {/* Fixed Desktop Sidebar */}
       {!isMobile && (
-        <div className="w-80 flex-shrink-0 border-r border-border bg-card">
-          <div className="h-full overflow-hidden">
+        <div className={`flex-shrink-0 border-r border-border bg-card transition-all duration-300 ease-in-out ${
+          sidebarCollapsed ? 'w-16' : 'w-80'
+        }`}>
+          <div className="h-full overflow-hidden relative">
             <Sidebar
               projects={projects}
               selectedProject={selectedProject}
@@ -514,6 +526,8 @@ function AppContent() {
               latestVersion={latestVersion}
               currentVersion={currentVersion}
               onShowVersionModal={() => setShowVersionModal(true)}
+              isCollapsed={sidebarCollapsed}
+              onToggleCollapse={toggleSidebar}
             />
           </div>
         </div>
