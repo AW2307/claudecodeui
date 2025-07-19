@@ -25,6 +25,7 @@ import MainContent from './components/MainContent';
 import MobileNav from './components/MobileNav';
 import ToolsSettings from './components/ToolsSettings';
 import QuickSettingsPanel from './components/QuickSettingsPanel';
+import RightFloatingMenu from './components/RightFloatingMenu';
 
 import { useWebSocket } from './utils/websocket';
 import { ThemeProvider } from './contexts/ThemeContext';
@@ -599,26 +600,31 @@ function AppContent() {
       )}
       {/* Quick Settings Panel - Only show on chat tab */}
       {activeTab === 'chat' && (
-        <QuickSettingsPanel
-          isOpen={showQuickSettings}
-          onToggle={setShowQuickSettings}
-          autoExpandTools={autoExpandTools}
-          onAutoExpandChange={(value) => {
-            setAutoExpandTools(value);
-            localStorage.setItem('autoExpandTools', JSON.stringify(value));
-          }}
-          showRawParameters={showRawParameters}
-          onShowRawParametersChange={(value) => {
-            setShowRawParameters(value);
-            localStorage.setItem('showRawParameters', JSON.stringify(value));
-          }}
-          autoScrollToBottom={autoScrollToBottom}
-          onAutoScrollChange={(value) => {
-            setAutoScrollToBottom(value);
-            localStorage.setItem('autoScrollToBottom', JSON.stringify(value));
-          }}
-          isMobile={isMobile}
-        />
+        <>
+          <QuickSettingsPanel
+            isOpen={showQuickSettings}
+            onToggle={setShowQuickSettings}
+            autoExpandTools={autoExpandTools}
+            onAutoExpandChange={(value) => {
+              setAutoExpandTools(value);
+              localStorage.setItem('autoExpandTools', JSON.stringify(value));
+            }}
+            showRawParameters={showRawParameters}
+            onShowRawParametersChange={(value) => {
+              setShowRawParameters(value);
+              localStorage.setItem('showRawParameters', JSON.stringify(value));
+            }}
+            autoScrollToBottom={autoScrollToBottom}
+            onAutoScrollChange={(value) => {
+              setAutoScrollToBottom(value);
+              localStorage.setItem('autoScrollToBottom', JSON.stringify(value));
+            }}
+            isMobile={isMobile}
+          />
+          
+          {/* Right Floating Menu */}
+          <RightFloatingMenu isMobile={isMobile} />
+        </>
       )}
 
       {/* Tools Settings Modal */}
