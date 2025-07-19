@@ -1,0 +1,156 @@
+/* Sidebar Animation Styles */
+
+/* Base transition for sidebar elements */
+.sidebar-transition {
+  transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Smooth opacity transitions for text elements */
+.sidebar-text-transition {
+  transition: opacity 0.3s ease-in-out, transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Staggered animation for sidebar items */
+.sidebar-item-enter {
+  animation: slideInFade 0.4s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+.sidebar-item-exit {
+  animation: slideOutFade 0.3s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+/* Icon rotation animation */
+.sidebar-icon-transition {
+  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), 
+              color 0.3s ease-in-out,
+              opacity 0.3s ease-in-out,
+              scale 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.sidebar-icon-transition:hover {
+  scale: 1.05;
+}
+
+/* Smooth width transition for collapsed state */
+.sidebar-width-transition {
+  transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1),
+              padding 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Button hover effects with smooth transitions */
+.sidebar-button-transition {
+  transition: background-color 0.2s ease-in-out,
+              transform 0.15s cubic-bezier(0.4, 0, 0.2, 1),
+              box-shadow 0.2s ease-in-out;
+}
+
+.sidebar-button-transition:hover {
+  transform: translateX(2px);
+}
+
+.sidebar-button-transition:active {
+  transform: scale(0.98);
+}
+
+/* Animations */
+@keyframes slideInFade {
+  from {
+    opacity: 0;
+    transform: translateX(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideOutFade {
+  from {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateX(-10px);
+  }
+}
+
+/* Collapse button rotation */
+.collapse-button-icon {
+  transition: transform 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55),
+              background-color 0.2s ease-in-out;
+}
+
+.collapse-button-icon:hover {
+  transform: scale(1.1);
+}
+
+.collapse-button-icon:active {
+  transform: scale(0.95);
+}
+
+/* Smooth scroll area transition */
+.sidebar-scroll-area {
+  transition: padding 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Project item hover effects */
+.project-item-transition {
+  transition: all 0.2s ease-in-out;
+  position: relative;
+}
+
+.project-item-transition::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: 3px;
+  background-color: transparent;
+  transition: background-color 0.3s ease-in-out;
+}
+
+.project-item-transition:hover::before {
+  background-color: var(--primary);
+}
+
+/* Delayed show/hide for text elements */
+.sidebar-text-delayed {
+  transition: opacity 0.2s ease-in-out 0.1s,
+              visibility 0s linear 0.3s;
+}
+
+.sidebar-collapsed .sidebar-text-delayed {
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.2s ease-in-out,
+              visibility 0s linear;
+}
+
+/* Smooth border transitions */
+.sidebar-border-transition {
+  transition: border-color 0.3s ease-in-out,
+              border-width 0.3s ease-in-out;
+}
+
+/* Glass morphism effect during transition */
+.sidebar-transitioning {
+  backdrop-filter: blur(8px);
+  transition: backdrop-filter 0.3s ease-in-out;
+}
+
+/* Micro animations for better perceived performance */
+@media (prefers-reduced-motion: no-preference) {
+  .sidebar-transition {
+    will-change: width, transform;
+  }
+  
+  .sidebar-text-transition {
+    will-change: opacity, transform;
+  }
+  
+  .sidebar-icon-transition {
+    will-change: transform, scale;
+  }
+}
