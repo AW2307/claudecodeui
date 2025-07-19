@@ -506,7 +506,7 @@ function AppContent() {
     <div className="fixed inset-0 flex bg-background">
       {/* Fixed Desktop Sidebar */}
       {!isMobile && (
-        <div className={`flex-shrink-0 border-r border-border bg-card transition-all duration-300 ease-in-out ${
+        <div className={`flex-shrink-0 border-r border-border bg-card transition-all duration-500 ease-[cubic-bezier(0.4,0,0.2,1)] ${
           sidebarCollapsed ? 'w-16' : 'w-80'
         }`}>
           <div className="h-full overflow-hidden relative">

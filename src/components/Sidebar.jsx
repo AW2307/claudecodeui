@@ -416,68 +416,72 @@ function Sidebar({
   });
 
   return (
-    <div className="h-full flex flex-col bg-card md:select-none">
+    <div className="h-full flex flex-col bg-card md:select-none sidebar-transition">
       {/* Header */}
-      <div className="md:p-4 md:border-b md:border-border">
+      <div className={cn(
+        "md:p-4 md:border-b md:border-border sidebar-transition",
+        isCollapsed && "md:p-2"
+      )}>
         {/* Desktop Header */}
         <div className="hidden md:flex items-center justify-between">
           {!isCollapsed ? (
-            <div className="flex items-center gap-3">
-              <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center shadow-sm">
+            <div className="flex items-center gap-3 sidebar-item-enter">
+              <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center shadow-sm sidebar-icon-transition">
                 <MessageSquare className="w-4 h-4 text-primary-foreground" />
               </div>
-              <div>
+              <div className="sidebar-text-transition">
                 <h1 className="text-lg font-bold text-foreground">Claude Code UI</h1>
                 <p className="text-sm text-muted-foreground">AI coding assistant interface</p>
               </div>
             </div>
           ) : (
-            <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center shadow-sm">
+            <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center shadow-sm sidebar-icon-transition">
               <MessageSquare className="w-4 h-4 text-primary-foreground" />
             </div>
           )}
           <div className="flex gap-2">
-            {!isCollapsed && (
-              <>
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  className="h-9 w-9 px-0 hover:bg-accent transition-colors duration-200 group"
-                  onClick={async () => {
-                    setIsRefreshing(true);
-                    try {
-                      await onRefresh();
-                    } finally {
-                      setIsRefreshing(false);
-                    }
-                  }}
-                  disabled={isRefreshing}
-                  title="Refresh projects and sessions (Ctrl+R)"
-                >
-                  <RefreshCw className={`w-4 h-4 ${isRefreshing ? 'animate-spin' : ''} group-hover:rotate-180 transition-transform duration-300`} />
-                </Button>
-                <Button
-                  variant="default"
-                  size="sm"
-                  className="h-9 w-9 px-0 bg-primary hover:bg-primary/90 transition-all duration-200 shadow-sm hover:shadow-md"
-                  onClick={() => setShowNewProject(true)}
-                  title="Create new project (Ctrl+N)"
-                >
-                  <FolderPlus className="w-4 h-4" />
-                </Button>
-              </>
-            )}
+            <div className={cn(
+              "flex gap-2 transition-all duration-300",
+              isCollapsed ? "opacity-0 w-0 overflow-hidden" : "opacity-100"
+            )}>
+              <Button
+                variant="ghost"
+                size="sm"
+                className="h-9 w-9 px-0 hover:bg-accent sidebar-button-transition group"
+                onClick={async () => {
+                  setIsRefreshing(true);
+                  try {
+                    await onRefresh();
+                  } finally {
+                    setIsRefreshing(false);
+                  }
+                }}
+                disabled={isRefreshing}
+                title="Refresh projects and sessions (Ctrl+R)"
+              >
+                <RefreshCw className={`w-4 h-4 ${isRefreshing ? 'animate-spin' : ''} group-hover:rotate-180 transition-transform duration-300`} />
+              </Button>
+              <Button
+                variant="default"
+                size="sm"
+                className="h-9 w-9 px-0 bg-primary hover:bg-primary/90 sidebar-button-transition shadow-sm hover:shadow-md"
+                onClick={() => setShowNewProject(true)}
+                title="Create new project (Ctrl+N)"
+              >
+                <FolderPlus className="w-4 h-4" />
+              </Button>
+            </div>
             <Button
               variant="ghost"
               size="sm"
-              className="h-9 w-9 px-0 hover:bg-accent transition-colors duration-200"
+              className="h-9 w-9 px-0 hover:bg-accent sidebar-button-transition collapse-button-icon"
               onClick={onToggleCollapse}
               title={isCollapsed ? "Expand sidebar" : "Collapse sidebar"}
             >
               {isCollapsed ? (
-                <PanelLeft className="w-4 h-4" />
+                <PanelLeft className="w-4 h-4 sidebar-icon-transition" />
               ) : (
-                <PanelLeftClose className="w-4 h-4" />
+                <PanelLeftClose className="w-4 h-4 sidebar-icon-transition" />
               )}
             </Button>
           </div>
@@ -647,7 +651,10 @@ function Sidebar({
       )}
       
       {/* Projects List */}
-      <ScrollArea className="flex-1 md:px-2 md:py-3 overflow-y-auto overscroll-contain">
+      <ScrollArea className={cn(
+        "flex-1 md:px-2 md:py-3 overflow-y-auto overscroll-contain sidebar-scroll-area sidebar-transition",
+        isCollapsed && "md:px-1 md:py-2"
+      )}>
         <div className="md:space-y-1 pb-safe-area-inset-bottom">
           {isLoading ? (
             <div className="text-center py-12 md:py-8 px-4">
@@ -839,7 +846,7 @@ function Sidebar({
                     <Button
                       variant="ghost"
                       className={cn(
-                        "hidden md:flex w-full justify-between p-2 h-auto font-normal hover:bg-accent/50",
+                        "hidden md:flex w-full justify-between p-2 h-auto font-normal hover:bg-accent/50 project-item-transition",
                         isSelected && "bg-accent text-accent-foreground",
                         isStarred && !isSelected && "bg-yellow-50/50 dark:bg-yellow-900/10 hover:bg-yellow-100/50 dark:hover:bg-yellow-900/20",
                         isCollapsed && "justify-center"
@@ -862,18 +869,18 @@ function Sidebar({
                       {!isCollapsed ? (
                         <div className="flex items-center gap-3 min-w-0 flex-1">
                           {isExpanded ? (
-                            <FolderOpen className="w-4 h-4 text-primary flex-shrink-0" />
+                            <FolderOpen className="w-4 h-4 text-primary flex-shrink-0 sidebar-icon-transition" />
                           ) : (
-                            <Folder className="w-4 h-4 text-muted-foreground flex-shrink-0" />
+                            <Folder className="w-4 h-4 text-muted-foreground flex-shrink-0 sidebar-icon-transition" />
                           )}
-                          <div className="min-w-0 flex-1 text-left">
+                          <div className="min-w-0 flex-1 text-left sidebar-text-transition">
                             {editingProject === project.name ? (
                               <div className="space-y-1">
                                 <input
                                   type="text"
                                   value={editingName}
                                   onChange={(e) => setEditingName(e.target.value)}
-                                  className="w-full px-2 py-1 text-sm border border-border rounded bg-background text-foreground focus:ring-2 focus:ring-primary/20"
+                                  className="w-full px-2 py-1 text-sm border border-border rounded bg-background text-foreground focus:ring-2 focus:ring-primary/20 sidebar-transition"
                                   placeholder="Project name"
                                   autoFocus
                                   onKeyDown={(e) => {
@@ -908,14 +915,14 @@ function Sidebar({
                         </div>
                       ) : (
                         // Collapsed view - show only icon
-                        <div className="relative">
+                        <div className="relative sidebar-icon-transition">
                           {isExpanded ? (
                             <FolderOpen className="w-4 h-4 text-primary" />
                           ) : (
                             <Folder className="w-4 h-4 text-muted-foreground" />
                           )}
                           {isStarred && (
-                            <div className="absolute -top-1 -right-1 w-2 h-2 bg-yellow-500 rounded-full" />
+                            <div className="absolute -top-1 -right-1 w-2 h-2 bg-yellow-500 rounded-full sidebar-transition" />
                           )}
                         </div>
                       )}
